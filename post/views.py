@@ -15,7 +15,6 @@ class PostsView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all
-        # context['cat_select'] = 0
         return context
 
     def get_queryset(self):
@@ -49,7 +48,6 @@ class PostCategory(ListView):
     model = Post
     template_name = 'category_index.html'
     context_object_name = 'posts'
-    # allow_empty = False
 
     def get_queryset(self):
         return Post.objects.filter(cat__id=self.kwargs['cat_id'], is_published=True)
@@ -69,10 +67,8 @@ class AddComment(LoginRequiredMixin, CreateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all
-        # context['post'] = Post
         return context 
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        # form.instance.post_id = self.request.post.pk
         return super().form_valid(form)
