@@ -1,0 +1,47 @@
+{% extends "base_template.html" %}
+
+{% block title %}
+<title>All Posts</title>
+{% endblock title %}
+
+{% block navigation %}
+
+<ul class="posts">
+	<li>Category:</li>
+	{% for cat in categories %}
+	<li><a href="{{ cat.get_absolute_url }}"> {{cat}} </a></li>
+	{% endfor %}
+	<li><a href="{% url 'add_post' %}"><b>Add Post</b></a></li>
+</ul>
+
+{% endblock navigation %}
+
+
+{% block content %}
+
+<h2>ALL POSTS</h2>
+
+<ul class="list-articles">
+	{% for p in posts %}
+	<li><div class="article-panel">
+	<p class="first">Category: 
+    {% for cat in p.cat.all %}
+    {{cat}}| </p>
+    {% endfor %}        
+	<p class="last">Author: {{p.author}} | Date: {{p.updated}}</p>
+</div>
+
+	<p><img class="img-article-left thumb" src="{{p.image.url}}"></p>
+
+	<h2>{{p.title}}</h2>
+	{% autoescape on %}
+	{{p.content|linebreaks|truncatewords:150}}
+	{% endautoescape %}
+			<div class="clear"></div>
+			<p class="link-read-post"><a href="{{ p.get_absolute_url}}"><b>Read the post</b></a></p>
+			</li>
+	{% endfor %}
+</ul>
+
+{% endblock content %}
+

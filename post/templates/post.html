@@ -1,0 +1,43 @@
+{% extends "base_template.html" %}
+
+{% block title %}
+<title>{{post.title}}</title>
+{% endblock title %}
+
+
+{% block navigation %}
+
+<ul class="posts">
+	<li>Category:</li>
+	{% for cat in categories %}
+	<li><a href="{{ cat.get_absolute_url }}"> {{cat}} </a></li>
+	{% endfor %}
+	<li><a href="{% url 'add_post' %}"><b>Add Post</b></a></li>
+</ul>
+
+{% endblock navigation %}
+
+{% block content %}
+
+<h1>{{post.title}}</h1>
+<p><img class="img-article-left" src="{{post.image.url}}"></p>
+{{post.content|linebreaks}}
+
+{% block comment %}
+<div><h3>Comments:</h3></div>
+
+<div class="comment">
+{% for comment in post.comments.all %}
+    <p class="comment-author">{{ comment }}: <b>{{comment.content}}</b></p>
+    {% empty %}
+    <p>There are no comments yet.</p>
+{% endfor %}
+</div>
+
+<div>
+    <a href="#"><button class="btn btn-warning">Add comment</button></a>
+</div>
+{% endblock comment %}
+
+
+{% endblock %}

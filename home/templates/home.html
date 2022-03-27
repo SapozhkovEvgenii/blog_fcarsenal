@@ -1,0 +1,16 @@
+{% extends "base_template.html" %}
+
+{% block title %}
+<title>Home page</title>
+{% endblock title %}
+
+{% block content %}
+<div class="news">
+    <h1>Arsenal FC News</h1>
+    {% for elem in news  %}
+        <a target="_blank" href="{{elem.href}}"><p>{{elem.value}}</p></a>
+    {% endfor %}
+
+</div>
+{% endblock content %}
+
