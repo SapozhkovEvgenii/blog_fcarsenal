@@ -1,8 +1,8 @@
 from django.urls import path
-from home.views import info_arsenal, home_page
+from home.views import info_arsenal, ListNews
 
 urlpatterns = [
     path("info", info_arsenal, name="info"),
-    path("", home_page, name="home_page"),
+    path("", ListNews.as_view(), name="home_page"),
 ]
 

@@ -57,15 +57,15 @@
     </li>
 {% endif %}
 
-        {% for p in paginator.page_range %}
-		{% if page_obj.number == p %}
-        <li class="page-numer"><button class="btn btn"><b>{{ p }}</b></button></li>
-		{% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
-        <li>
-            <a href="?page={{ p }}"><button class="btn btn-warning">{{ p }}</button></a>
-        </li>
-		{% endif %}
-        {% endfor %}
+    {% for p in paginator.page_range %}
+    {% if page_obj.number == p %}
+    <li class="page-numer"><button class="btn btn"><b>{{ p }}</b></button></li>
+    {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+    <li>
+        <a href="?page={{ p }}"><button class="btn btn-warning">{{ p }}</button></a>
+    </li>
+    {% endif %}
+    {% endfor %}
 
 {% if page_obj.has_next %}
 <li>
@@ -76,7 +76,10 @@
     </ul>
 </nav>
 {% endif %}
+
     </div>
     </main>  
+
+
 </body>
 </html>

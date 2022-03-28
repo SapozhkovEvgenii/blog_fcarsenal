@@ -1,27 +1,24 @@
 from django.shortcuts import render
 from home.utils.pars_fcarsenal import my_list_news
 from home.models import News
-from django.core.paginator import Paginator
+from django.views.generic import ListView
 
 
-def home_page(request):
-    for elem in my_list_news:
-        news = News()
-        news.value = elem[0]
-        news.href = elem[1]
-        try:
-            news.save()
-        finally:
-            continue
-    all_news = News.objects.all()
-    paginator = Paginator(all_news, 7)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        "news": all_news,
-        "page_obj": page_obj
-    }
-    return render(request, "home.html", context)
+class ListNews(ListView):
+    paginate_by = 10
+    model = News
+    template_name = "home.html"
+    context_object_name = 'news'
+
+    def get_news(self):
+        for elem in my_list_news:
+            news = News()
+            news.value = elem[0]
+            news.href = elem[1]
+            try:
+                news.save()
+            finally:
+                continue
 
 
 def info_arsenal(request):
