@@ -191,7 +191,8 @@ div.article-panel p.last {
     margin-top: 20px;
 }
 
-.news a {
+.news a:hover {
+    color: #6d0606;
     text-decoration: none;
 }
 

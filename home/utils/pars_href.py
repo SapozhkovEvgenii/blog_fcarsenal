@@ -6,7 +6,7 @@ hrefs = []
 
 def pars_href():
     response = requests.get(url)
-    page = BS(response.text, features="html.parser")
+    page = BS(response.text, 'lxml')
     href_all = page.findAll("div", class_="views-field views-field-title")
     for href in href_all:
         h = "https://fc-arsenal.com/" + href.find("span", class_="field-content").find("a").get("href")

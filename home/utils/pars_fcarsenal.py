@@ -6,10 +6,10 @@ class NewsFCArsenal(Parse):
 
     def parser(self):
         list_news = []
-        news = self.response()
-        for elem_news in news:
-            elem_news = elem_news.find("span", class_="field-content")
-            list_news.append(elem_news.text)
+        text_all = self.response().findAll("div", class_="views-field views-field-title")
+        for elem in text_all:
+            text_elem = elem.find("span", class_="field-content").find("a").text
+            list_news.append(text_elem)
         return list_news
 
     def __iter__(self):
@@ -27,9 +27,8 @@ class NewsFCArsenal(Parse):
 
 
 my_url = "https://fc-arsenal.com/news/all"
-my_selector = "#views-bootstrap-arkhiv-novostey-page-1 > div > div"
 
-news_fcarsenal = NewsFCArsenal(my_url, my_selector)
+news_fcarsenal = NewsFCArsenal(my_url)
 
 my_list_news = []
 
