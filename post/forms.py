@@ -33,11 +33,5 @@ class AddCommentForm(forms.ModelForm):
             'content': forms.Textarea(attrs={'cols': 100, 'rows': 4}),
         }
 
-    # def clean(self):
-    #     super().clean()
-    #     print (Comment.author, "###################")
-    #     errors = {}
-    #     if Comment.author is not User:
-    #         raise forms.ValidationError("User not found")
             
 
