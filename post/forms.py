@@ -1,6 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from post.models import Post, Comment
+from user.models import User
 
 
 class AddPostForm(forms.ModelForm):
@@ -27,7 +28,16 @@ class AddCommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ['post', 'content']
+        fields = ['content']
         widgets = {
             'content': forms.Textarea(attrs={'cols': 100, 'rows': 4}),
         }
+
+    # def clean(self):
+    #     super().clean()
+    #     print (Comment.author, "###################")
+    #     errors = {}
+    #     if Comment.author is not User:
+    #         raise forms.ValidationError("User not found")
+            
+

@@ -12,9 +12,7 @@
 	{% for p in posts %}
 	<li><div class="article-panel">
 	<p class="first">Category: 
-    {% for cat in p.cat.all %}
     {{cat}}| </p>
-    {% endfor %}        
 	<p class="last">Author: {{p.author}} | Date: {{p.updated}}</p>
 </div>
 

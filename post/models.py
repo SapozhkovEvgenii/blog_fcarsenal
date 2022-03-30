@@ -1,5 +1,3 @@
-from email.mime import image
-from email.policy import default
 from django.db import models
 from user.models import User
 from datetime import datetime
@@ -65,6 +63,9 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.author}" + " " + datetime.strftime(self.created, "%Y/%m/%d %H:%M:%S ")
+
+    # def get_absolute_url(self):
+    #     return reverse('post_user', kwargs={'pk': self.post.id})
 
     class Meta:
         db_table = "comments"
