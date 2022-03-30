@@ -31,7 +31,6 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_user', kwargs={'pk': self.pk})
 
-
     class Meta:
         db_table = "posts"
         verbose_name = "Post"
@@ -64,14 +63,11 @@ class Comment(models.Model):
     def __str__(self):
         return f"Comment by {self.author}" + " " + datetime.strftime(self.created, "%Y/%m/%d %H:%M:%S ")
 
-    # def get_absolute_url(self):
-    #     return reverse('post_user', kwargs={'pk': self.post.id})
 
     class Meta:
         db_table = "comments"
         verbose_name = "Comment"
         ordering = ["-created"]
-
 
 
 @receiver(pre_delete, sender=Post)

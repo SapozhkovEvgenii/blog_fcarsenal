@@ -39,7 +39,6 @@ class ShowPost(DetailView, FormView):
         success_url = f"/post/{pk}/"
         return success_url
 
-    # @method_decorator(login_required)
     def form_valid(self, form):
         post = Post.objects.get(pk=self.kwargs['pk'])
         form.instance.post = post

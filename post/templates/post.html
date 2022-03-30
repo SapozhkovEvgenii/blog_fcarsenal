@@ -12,7 +12,9 @@
 	{% for cat in categories %}
 	<li><a href="{{ cat.get_absolute_url }}"> {{cat}} </a></li>
 	{% endfor %}
+    {% if user.is_authenticated %}
 	<li><a href="{% url 'add_post' %}"><b>Add Post</b></a></li>
+    {% endif %}
 </ul>
 
 {% endblock navigation %}
@@ -33,10 +35,6 @@
     <p>There are no comments yet.</p>
 {% endfor %}
 </div>
-
-{% comment %} <div>
-    <a href="{% url 'add_comment' %}"><button class="btn btn-warning">Add comment</button></a>
-</div> {% endcomment %}
 
 {% if user.is_authenticated %}
 
