@@ -38,6 +38,8 @@
     <a href="{% url 'add_comment' %}"><button class="btn btn-warning">Add comment</button></a>
 </div> {% endcomment %}
 
+{% if user.is_authenticated %}
+
 <div><b>Create comment</b></div>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -50,5 +52,9 @@
 {% endfor %}
     <button type="submit">Add</button>
 </form>
+{% else %}
+<p><h3> To be able to comment on the post, you need to register.</h3></p>
+{% endif %}
 {% endblock comment %}
+
 {% endblock %}
