@@ -12,7 +12,7 @@
 	{% for p in posts %}
 	<li><div class="article-panel">
 	<p class="first">Category: 
-    {{cat}}| </p>
+    {{cat}} &nbsp; </p>
 	<p class="last">Author: {{p.author}} | Date: {{p.updated}}</p>
 </div>
 
@@ -23,7 +23,7 @@
 	{{p.content|linebreaks|truncatewords:150}}
 	{% endautoescape %}
 			<div class="clear"></div>
-			<p class="link-read-post"><a href="{{ p.get_absolute_url}}">Read the post</a></p>
+			<p class="link-read-post"><a href="{{ p.get_absolute_url}}"><b>Read the post</b></a></p>
 			</li>
 	{% endfor %}
 </ul>

@@ -54,6 +54,7 @@
     <ul>
 {% if page_obj.has_previous %}
     <li>
+    <a href="?page=1"><button class="btn btn-warning">&lt;&lt;</button></a>
 	<a href="?page={{ page_obj.previous_page_number }}"><button class="btn btn-warning">&lt;</button></a>
     </li>
 {% endif %}
@@ -70,7 +71,8 @@
 
 {% if page_obj.has_next %}
 <li>
-	<a href="?page={{ page_obj.next_page_number }}"><button class="btn btn-warning">&gt;</button></a>
+    <a href="?page={{ page_obj.next_page_number }}"><button class="btn btn-warning">&gt;</button></a>
+	<a href="?page={{page_obj.paginator.num_pages}}"><button class="btn btn-warning">&gt;&gt;</button></a>
 </li>
 {% endif %}
 
@@ -78,10 +80,16 @@
 </nav>
 {% endif %}
 {% endblock pagination %}
-
     </div>
     </main>  
 
+{% comment %} <footer class="footer">
+    <div class="container">
+        <p> <b>This is my graduation project as part of the course "Python developer" by "TeachMeSkills" &#169 Evgenii Sapozhkov<b></p>
+    </div>
+</footer> {% endcomment %}
 
 </body>
+
+
 </html>

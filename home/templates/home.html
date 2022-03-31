@@ -7,43 +7,13 @@
 {% block content %}
 <div class="news">
     <h1>Arsenal FC News</h1>
-    {% for elem in page_obj %}
+    {% for elem in news %}
         <a target="_blank" href="{{elem.href}}"><p>{{elem.value}}</p></a>
     {% endfor %}
 
 </div>
 {% endblock content %}
 
-{% block pagination %}
-{% if page_obj.has_other_pages %}
-<nav class="list-pages">
-    <ul>
-{% if page_obj.has_previous %}
-    <li>
-	<a href="?page={{ page_obj.previous_page_number }}"><button class="btn btn-warning">&lt;</button></a>
-    </li>
-{% endif %}
-
-    {% for p in page_obj.paginator.page_range %}
-    {% if page_obj.number == p %}
-    <li class="page-numer"><button class="btn btn"><b>{{ p }}</b></button></li>
-    {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
-    <li>
-        <a href="?page={{ p }}"><button class="btn btn-warning">{{ p }}</button></a>
-    </li>
-    {% endif %}
-    {% endfor %}
-
-{% if page_obj.has_next %}
-<li>
-	<a href="?page={{ page_obj.next_page_number }}"><button class="btn btn-warning">&gt;</button></a>
-</li>
-{% endif %}
-
-    </ul>
-</nav>
-{% endif %}
-{% endblock pagination %}
 
 
 
