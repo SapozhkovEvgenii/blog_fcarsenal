@@ -81,13 +81,10 @@
 {% endif %}
 {% endblock pagination %}
     </div>
+{% if back %}
+    <a href="{{back}}"> <button class="btn btn-warning"><< Back</button> </a>
+{% endif %}
     </main>  
-
-{% comment %} <footer class="footer">
-    <div class="container">
-        <p> <b>This is my graduation project as part of the course "Python developer" by "TeachMeSkills" &#169 Evgenii Sapozhkov<b></p>
-    </div>
-</footer> {% endcomment %}
 
 </body>
 

@@ -34,6 +34,8 @@
         Dennis Bergkamp, goalkeeper Pat Jennings, midfielder Liam Brady, defender Tony Adams, and, arguably the team`s greatest player, striker Thierry Henry, 
         who scored a club-record 226 goals between 1999 and 2007.
     </p>
-    <button class="btn btn-warning">Back</button>
+    {% comment %} {% if back %}
+    <a href="{{back}}"> <button class="btn btn-warning">Back</button> </a>
+    {% endif %} {% endcomment %}
 </div>
 {% endblock content %}    

@@ -1,5 +1,7 @@
 from pathlib import Path
 import environ
+import os
+
 
 env = environ.Env()
 environ.Env.read_env(".env")
@@ -95,12 +97,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR/"home"/"static",
-    BASE_DIR/"post"/"static"
+    os.path.join(BASE_DIR, 'home', 'static'),
+    os.path.join(BASE_DIR, 'post', 'static'),
 ]
 
 MEDIA_URL = "media/"
-MEDIA_ROOT = BASE_DIR/"post"/"static"/"media"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'post', 'static', 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

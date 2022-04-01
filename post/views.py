@@ -16,6 +16,8 @@ class PostsView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.request.META.get("HTTP_REFERER"):
+            context.update(back=self.request.META["HTTP_REFERER"])
         context['categories'] = Category.objects.all
         return context
 
@@ -31,6 +33,8 @@ class ShowPost(DetailView, FormView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.request.META.get("HTTP_REFERER"):
+            context.update(back=self.request.META["HTTP_REFERER"])
         context['categories'] = Category.objects.all
         return context 
 
@@ -68,6 +72,8 @@ class PostCategory(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.request.META.get("HTTP_REFERER"):
+            context.update(back=self.request.META["HTTP_REFERER"])
         context['categories'] = Category.objects.all
         context['cat'] = Category.objects.get(id=self.kwargs['cat_id'])
         return context 

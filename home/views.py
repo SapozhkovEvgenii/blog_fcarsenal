@@ -24,6 +24,9 @@ class ListNews(ListView):
 
 
 def info_arsenal(request):
-    return render(request, "about_arsenal.html")
+    context = {}
+    if request.META.get("HTTP_REFERER"):
+            context.update(back=request.META["HTTP_REFERER"])
+    return render(request, "about_arsenal.html", context=context)
 
 
