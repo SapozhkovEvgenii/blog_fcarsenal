@@ -4,9 +4,10 @@ from post.forms import AddPostForm, AddCommentForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+from post.utils import DataMixin
 
 
-class PostsView(ListView):
+class PostsView(DataMixin, ListView):
     paginate_by = 3
     model = Post
     template_name = "all_posts.html"
@@ -14,16 +15,14 @@ class PostsView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.META.get("HTTP_REFERER"):
-            context.update(back=self.request.META["HTTP_REFERER"])
-        context['categories'] = Category.objects.all
-        return context
+        context_mixin = self.get_context()
+        return dict(list(context.items()) + list(context_mixin.items()))
 
     def get_queryset(self):
         return Post.objects.filter(is_published=True)
     
 
-class ShowPost(DetailView, FormView):
+class ShowPost(DataMixin, DetailView, FormView):
     model = Post
     form_class = AddCommentForm
     template_name = 'post.html'
@@ -31,10 +30,8 @@ class ShowPost(DetailView, FormView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.META.get("HTTP_REFERER"):
-            context.update(back=self.request.META["HTTP_REFERER"])
-        context['categories'] = Category.objects.all
-        return context 
+        context_mixin = self.get_context()
+        return dict(list(context.items()) + list(context_mixin.items()))
 
     def get_success_url(self):
         pk = self.kwargs['pk']
@@ -59,7 +56,7 @@ class AddPost(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PostCategory(ListView):
+class PostCategory(DataMixin, ListView):
     paginate_by = 3
     model = Post
     template_name = 'category_index.html'
@@ -70,11 +67,8 @@ class PostCategory(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.META.get("HTTP_REFERER"):
-            context.update(back=self.request.META["HTTP_REFERER"])
-        context['categories'] = Category.objects.all
-        context['cat'] = Category.objects.get(id=self.kwargs['cat_id'])
-        return context 
+        context_mixin = self.get_context(cat=Category.objects.get(id=self.kwargs['cat_id']))
+        return dict(list(context.items()) + list(context_mixin.items()))
 
 
 # class AddComment(LoginRequiredMixin, CreateView):
