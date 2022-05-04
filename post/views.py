@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView, CreateView, FormView
-from post.models import Post, Category
+from post.models import Post, Category, Comment
 from post.forms import AddPostForm, AddCommentForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -19,7 +19,7 @@ class PostsView(DataMixin, ListView):
         return dict(list(context.items()) + list(context_mixin.items()))
 
     def get_queryset(self):
-        return Post.objects.filter(is_published=True)
+        return Post.objects.filter(is_published=True).select_related('author').prefetch_related('cat')
     
 
 class ShowPost(DataMixin, DetailView, FormView):
@@ -30,7 +30,8 @@ class ShowPost(DataMixin, DetailView, FormView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context_mixin = self.get_context()
+        context['comments'] = Comment.objects.filter(post_id=self.kwargs['pk']).select_related('author')
+        context_mixin = self.get_context()  
         return dict(list(context.items()) + list(context_mixin.items()))
 
     def get_success_url(self):
@@ -63,7 +64,7 @@ class PostCategory(DataMixin, ListView):
     context_object_name = 'posts'
 
     def get_queryset(self):
-        return Post.objects.filter(cat__id=self.kwargs['cat_id'], is_published=True)
+        return Post.objects.filter(cat__id=self.kwargs['cat_id'], is_published=True).select_related('author')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

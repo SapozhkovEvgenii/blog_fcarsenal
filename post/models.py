@@ -18,7 +18,12 @@ class Post(models.Model):
 
     title = models.CharField(max_length=256, unique=True, verbose_name="Post title")
     cat = models.ManyToManyField("Category", related_name="posts")
-    author = models.ForeignKey(User, related_name="posts", on_delete=models.CASCADE, verbose_name="Post author")
+    author = models.ForeignKey(
+        User, 
+        related_name="posts", 
+        on_delete=models.CASCADE, 
+        verbose_name="Post author"
+    )
     content = models.TextField(verbose_name="Post content")
     created = models.DateTimeField(auto_now_add=True, verbose_name="Time created")
     updated = models.DateField(auto_now=True, verbose_name="Time updated")
@@ -54,8 +59,16 @@ class Category(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    post = models.ForeignKey(
+        Post, 
+        on_delete=models.CASCADE, 
+        related_name="comments"
+    )
+    author = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name="comments"
+    )
     content = models.TextField(verbose_name="Comment content")
     created = models.DateTimeField(auto_now_add=True, verbose_name="Time created")
     active = models.BooleanField(default=True)
