@@ -3,7 +3,6 @@ from post.models import Post, Category, Comment
 from post.forms import AddPostForm, AddCommentForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
 from post.utils import DataMixin
 
 
@@ -20,31 +19,33 @@ class PostsView(DataMixin, ListView):
 
     def get_queryset(self):
         return Post.objects.filter(is_published=True).select_related('author').prefetch_related('cat')
-    
+
 
 class ShowPost(DataMixin, DetailView, FormView):
     model = Post
     form_class = AddCommentForm
     template_name = 'post.html'
     context_object_name = 'post'
+    slug_url_kwarg = 'post_slug'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = Comment.objects.filter(post_id=self.kwargs['pk']).select_related('author')
-        context_mixin = self.get_context()  
+        context['comments'] = Comment.objects.filter(
+            post_id=Post.objects.get(slug=self.kwargs['post_slug']).pk).select_related('author')
+        context_mixin = self.get_context()
         return dict(list(context.items()) + list(context_mixin.items()))
 
     def get_success_url(self):
-        pk = self.kwargs['pk']
-        success_url = f"/post/{pk}/"
+        url = self.kwargs['post_slug']
+        success_url = f"/post/{url}/"
         return success_url
 
     def form_valid(self, form):
-        post = Post.objects.get(pk=self.kwargs['pk'])
+        post = Post.objects.get(slug=self.kwargs['post_slug'])
         form.instance.post = post
-        form.instance.author= self.request.user
+        form.instance.author = self.request.user
         form.save()
-        return super().form_valid(form) 
+        return super().form_valid(form)
 
 
 class AddPost(LoginRequiredMixin, CreateView):
@@ -68,7 +69,8 @@ class PostCategory(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context_mixin = self.get_context(cat=Category.objects.get(id=self.kwargs['cat_id']))
+        context_mixin = self.get_context(
+            cat=Category.objects.get(id=self.kwargs['cat_id']))
         return dict(list(context.items()) + list(context_mixin.items()))
 
 
@@ -80,7 +82,7 @@ class PostCategory(DataMixin, ListView):
 #     def get_context_data(self, *, object_list=None, **kwargs):
 #         context = super().get_context_data(**kwargs)
 #         context['categories'] = Category.objects.all
-#         return context 
+#         return context
 
 
 #     def form_valid(self, form):

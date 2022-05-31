@@ -10,17 +10,17 @@ class ListNews(ListView):
     template_name = "home.html"
     context_object_name = 'news'
 
-    def get_queryset(self):
-        for elem in news_fcarsenal:
-            news = News()
-            news.value = elem[0]
-            news.href = elem[1]
-            try:
-                news.save()
-            finally:
-                continue
-        all_news = News.objects.all()
-        return all_news
+    # def get_queryset(self):
+    #     for elem in news_fcarsenal:
+    #         news = News()
+    #         news.value = elem[0]
+    #         news.href = elem[1]
+    #         try:
+    #             news.save()
+    #         finally:
+    #             continue
+    #     all_news = News.objects.all()
+    #     return all_news
 
 
 def info_arsenal(request):

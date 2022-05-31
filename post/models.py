@@ -19,9 +19,9 @@ class Post(models.Model):
     title = models.CharField(max_length=256, unique=True, verbose_name="Post title")
     cat = models.ManyToManyField("Category", related_name="posts")
     author = models.ForeignKey(
-        User, 
-        related_name="posts", 
-        on_delete=models.CASCADE, 
+        User,
+        related_name="posts",
+        on_delete=models.CASCADE,
         verbose_name="Post author"
     )
     content = models.TextField(verbose_name="Post content")
@@ -29,12 +29,13 @@ class Post(models.Model):
     updated = models.DateField(auto_now=True, verbose_name="Time updated")
     image = models.ImageField(upload_to=file_path)
     is_published = models.BooleanField(default=True)
+    slug = models.SlugField(max_length=255, null=True, verbose_name="URL")
 
     def __str__(self):
         return (self.title[:25] + "...") if len(self.title) > 25 else self.title
 
     def get_absolute_url(self):
-        return reverse('post_user', kwargs={'pk': self.pk})
+        return reverse('post_user', kwargs={'post_slug': self.slug})
 
     class Meta:
         db_table = "posts"
@@ -60,13 +61,13 @@ class Category(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(
-        Post, 
-        on_delete=models.CASCADE, 
+        Post,
+        on_delete=models.CASCADE,
         related_name="comments"
     )
     author = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE, 
+        User,
+        on_delete=models.CASCADE,
         related_name="comments"
     )
     content = models.TextField(verbose_name="Comment content")
@@ -87,4 +88,3 @@ class Comment(models.Model):
 def delete_image(sender, instance, **kwargs):
     path_to_file = settings.MEDIA_ROOT/str(instance.image.path)
     path_to_file.unlink()
-    

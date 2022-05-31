@@ -4,7 +4,7 @@ from post.models import *
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'title', 'created', 'image', 'is_published')
+    list_display = ('id', 'author', 'title', 'created', 'image', 'is_published', 'slug')
     list_display_links = ('title',)
     search_fields = ('title', 'content')
     list_editable = ('is_published',)
