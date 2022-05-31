@@ -132,3 +132,4 @@ dmypy.json
 .env
 .pw_db
 /home/static/img/
+/blog_fcarsenal_cache
