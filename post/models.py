@@ -29,7 +29,8 @@ class Post(models.Model):
     updated = models.DateField(auto_now=True, verbose_name="Time updated")
     image = models.ImageField(upload_to=file_path)
     is_published = models.BooleanField(default=True)
-    slug = models.SlugField(max_length=255, null=True, verbose_name="URL")
+    slug = models.SlugField(max_length=255, unique=True,
+                            db_index=True, verbose_name="URL")
 
     def __str__(self):
         return (self.title[:25] + "...") if len(self.title) > 25 else self.title
