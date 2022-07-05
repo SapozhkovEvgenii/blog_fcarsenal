@@ -5,4 +5,3 @@ urlpatterns = [
     path("info", info_arsenal, name="info"),
     path("", ListNews.as_view(), name="home_page"),
 ]
-
