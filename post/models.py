@@ -14,9 +14,11 @@ class Post(models.Model):
         file_expansion = filename.split(".")[-1]
         file_name = filename.split(".")[0]
         path_file = datetime.strftime(datetime.now(), "photos/%Y/%m/%d/")
-        return path_file + file_name + str(randint(10000000, 99999999)) + "." + file_expansion
+        return path_file + file_name + str(randint(10000000, 99999999)) + \
+            "." + file_expansion
 
-    title = models.CharField(max_length=256, unique=True, verbose_name="Post title")
+    title = models.CharField(
+        max_length=256, unique=True, verbose_name="Post title")
     cat = models.ManyToManyField("Category", related_name="posts")
     author = models.ForeignKey(
         User,
@@ -25,7 +27,8 @@ class Post(models.Model):
         verbose_name="Post author"
     )
     content = models.TextField(verbose_name="Post content")
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Time created")
+    created = models.DateTimeField(
+        auto_now_add=True, verbose_name="Time created")
     updated = models.DateField(auto_now=True, verbose_name="Time updated")
     image = models.ImageField(upload_to=file_path)
     is_published = models.BooleanField(default=True)
@@ -72,12 +75,13 @@ class Comment(models.Model):
         related_name="comments"
     )
     content = models.TextField(verbose_name="Comment content")
-    created = models.DateTimeField(auto_now_add=True, verbose_name="Time created")
+    created = models.DateTimeField(
+        auto_now_add=True, verbose_name="Time created")
     active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"Comment by {self.author}" + " " + datetime.strftime(self.created, "%Y/%m/%d %H:%M:%S ")
-
+        return f"Comment by {self.author}" + \
+            " " + datetime.strftime(self.created, "%Y/%m/%d %H:%M:%S ")
 
     class Meta:
         db_table = "comments"

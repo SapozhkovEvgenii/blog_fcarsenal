@@ -24,7 +24,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'user',
     'home',
-    'post'
+    'post',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -66,10 +67,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'arsenal_db',
-        'USER' : 'arsenal_admin',
-        'PASSWORD' : password,
-        'HOST' : '127.0.0.1',
-        'PORT' : '5432',
+        'USER': 'arsenal_admin',
+        'PASSWORD': password,
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -119,4 +120,10 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(BASE_DIR, 'blog_fcarsenal_cache'),
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
 }
