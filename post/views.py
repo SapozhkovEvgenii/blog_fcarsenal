@@ -18,7 +18,7 @@ class PostsView(DataMixin, ListView):
         return dict(list(context.items()) + list(context_mixin.items()))
 
     def get_queryset(self):
-        return Post.objects.filter(is_published=True).select_related('author').prefetch_related('cat')
+        return Post.objects.select_related('author').prefetch_related('cat').filter(is_published=True)
 
 
 class ShowPost(DataMixin, DetailView, FormView):
@@ -31,7 +31,7 @@ class ShowPost(DataMixin, DetailView, FormView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['comments'] = Comment.objects.filter(
-            post_id=Post.objects.get(slug=self.kwargs['post_slug']).pk).select_related('author')
+            post_id=Post.objects.select_related('author').get(slug=self.kwargs['post_slug']).pk)
         context_mixin = self.get_context()
         return dict(list(context.items()) + list(context_mixin.items()))
 
@@ -65,26 +65,10 @@ class PostCategory(DataMixin, ListView):
     context_object_name = 'posts'
 
     def get_queryset(self):
-        return Post.objects.filter(cat__id=self.kwargs['cat_id'], is_published=True).select_related('author')
+        return Post.objects.select_related('author').filter(cat__id=self.kwargs['cat_id'], is_published=True)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context_mixin = self.get_context(
             cat=Category.objects.get(id=self.kwargs['cat_id']))
         return dict(list(context.items()) + list(context_mixin.items()))
-
-
-# class AddComment(LoginRequiredMixin, CreateView):
-#     form_class = AddCommentForm
-#     template_name = 'addcomment.html'
-#     success_url = reverse_lazy('posts')
-
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['categories'] = Category.objects.all
-#         return context
-
-
-#     def form_valid(self, form):
-#         form.instance.author = self.request.user
-#         return super().form_valid(form)
