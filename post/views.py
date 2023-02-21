@@ -18,7 +18,7 @@ class PostsView(DataMixin, ListView):
         return dict(list(context.items()) + list(context_mixin.items()))
 
     def get_queryset(self):
-        return Post.objects.select_related('author').prefetch_related('cat').filter(is_published=True)
+        return Post.objects.prefetch_related('cat').filter(is_published=True)
 
 
 class ShowPost(DataMixin, DetailView, FormView):
