@@ -2,6 +2,7 @@ from django.shortcuts import render
 from home.utils.pars_news import news_fcarsenal
 from home.models import News
 from django.views.generic import ListView
+from django.core.exceptions import ValidationError
 
 
 class ListNews(ListView):
@@ -17,7 +18,7 @@ class ListNews(ListView):
             news.href = elem[1]
             try:
                 news.save()
-            finally:
+            except ValidationError:
                 continue
         all_news = News.objects.all()
         return all_news
